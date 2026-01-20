@@ -16,7 +16,7 @@ app.use(express.json());
 app.get('/test', async (req, res) => {
     res.send('서버가 작동 중입니다!');
 });
-
+//
 //1. 회원가입 API
 app.post('/auth/signup', async (req, res) => {
     const { email, password } = req.body;
