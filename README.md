@@ -2,11 +2,14 @@
 
 (repository에 초대되어서 branch를 생성하고 push&pull하고 싶을 때)
 
+### 0. 작업할 빈 폴더 지정(앞으로 clone으로 관리할 폴더 생성)
+
 ### 1. 브렌치 만들기
 
 ```jsx
 1. 코드 복사
 -> git clone https://github.com/JoshyWoshy1212/MSMR.git
+-> cd MSMR
 
 2. 브렌치 생성(새 기능을 만들 때마다 아래 명령어 활용)
 -> git checkout -b [브렌치 이름] 
@@ -24,7 +27,7 @@
 
 2. 기록 남기기
 -> git commit -m "로그인 기능 구현 완료"
-// 위 기록은 예시
+//위 기록은 예시
 
 3. 내 브렌치에 올리기
 -> git push origin [브렌치 이름]
@@ -34,12 +37,15 @@
 ### **주의 사항**
 
 ## `다른 컴퓨터에서 작업 중이라면 2번 내용의 0번 사항을 꼭 지키기`
+
 ```jsx
 // 이미 만들어진 브랜치에서 pull 안하고 바로 push하면 오류 발생
 // 0번과 1번 사이 아래 내용 실행
 -> git pull origin [브렌치 이름]
 // 이후에 2번부터 실행
 ```
+
+---
 
 ## Pull Request(브렌치에 올린 코드 main과 합칠 때)
 
@@ -51,7 +57,26 @@ GitHub 레포지토리 페이지에 들어가면
 친구들과 코드를 리뷰한 뒤, 
 문제가 없으면 `Merge pull request`를 눌러 합친다.
 
+```jsx
 ** 최신 코드 유지 **
 -> git pull origin main              # 메인 브렌치의 최신 내용을 내 컴퓨터로
 //이후에 branch로 수정하고 싶으면 위에서 말한대로
 // git push origin [브렌치 이름]
+```
+
+---
+
+## main 내용을 나의 브랜치에 합치고 싶을 때
+
+(main 내용을 다시 나의 브랜치로 덮어씌우고 싶을 때)
+
+```jsx
+1. 일단 내 브랜치로 이동
+-> git checkout [브랜치 이름]
+
+2. 내 컴퓨터에 있는 최신 main의 내용을 나의 브랜치로 합칩
+-> git merge main
+
+3. 이제 내 브랜치가 최신화되었으니, GitHub로 올림
+-> git push origin [브랜치 이름]
+```
