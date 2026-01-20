@@ -1,0 +1,123 @@
+/* Login.css */
+body{
+  background-color: #f0f2f5;
+  color: white;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+h1{
+  text-align: center;
+}
+
+.App {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center;     /* 세로 중앙 */
+}
+
+/* 카드 전체 컨테이너 */
+.login-container {
+  background-color: #ffffff;
+  padding: 50px 40px;
+  border-radius: 24px; /* 둥근 모서리 강화 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* 그림자를 더 부드럽게 */
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+}
+
+/* "로그인" 제목 */
+.login-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+/* 폼 스타일 */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 입력창 사이 간격 */
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px 24px; /* 안쪽 여백을 크게 해서 큼직하게 만듦 */
+  background-color: #f1f3f5; /* 배경(흰색)보다 확실히 어두운 회색 */
+  border: 2px solid transparent; /* 평소엔 테두리 안 보임 */
+  border-radius: 50px; /* 완전한 원형(캡슐형) */
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box; 
+}
+
+/* 3. 클릭(focus)했을 때 테두리 구분 */
+.login-input:focus {
+    background-color: #ffffff; /* 클릭하면 밝아짐 */
+  border-color: #4f46e5; /* 테두리 강조 */
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* 로그인 버튼 */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #4338ca;
+}
+
+/* 회원가입 링크 부분 */
+.signup-link-container {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #666;
+  border: none;
+}
+
+.signup-link-container a {
+  color: #4f46e5;
+  text-decoration: none; /* 밑줄 제거 */
+  font-weight: 600; /* 텍스트 강조 */
+  margin-left: 8px;
+  
+  background: none; 
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.signup-link-container a:hover {
+  text-decoration: underline;
+  color: #4338ca; 
+}

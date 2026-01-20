@@ -1,0 +1,56 @@
+.compose-modal{
+  position: fixed;
+  bottom: 20px; /* 초기 위치 */
+  right: 80px;  /* 초기 위치 */
+  width: 520px;
+  height: 500px;
+  background: white;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  /* 중요: translate로 위치를 조절하므로 초기 transform 설정 */
+  will-change: transform;
+}
+
+.modal-header {
+  /* 드래그 가능함을 알리는 커서 스타일 */
+  cursor: grab;
+  user-select: none; /* 텍스트 선택 방지 */
+}
+
+.modal-header:active {
+  cursor: grabbing;
+}
+
+.modal-header{
+  background: #f2f6fc;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.modal-body { display: flex; flex-direction: column; padding: 0 15px; flex: 1; }
+.modal-body input { border: none; border-bottom: 1px solid #f1f1f1; padding: 10px 0; outline: none; }
+.modal-body textarea { border: none; flex: 1; resize: none; padding: 10px 0; outline: none; }
+
+.modal-footer { padding: 15px; }
+.send-btn {
+  background-color: #0b57d0;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background-color: #0842a0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}

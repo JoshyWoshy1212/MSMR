@@ -1,0 +1,22 @@
+
+.mail-detail {
+  flex: 1;
+  background-color: white;
+  margin: 8px 16px 16px 0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header {
+  padding: 12px 16px;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.detail-body { padding: 20px; }
+.detail-body h2 { margin-bottom: 20px; font-weight: 400; }
+.sender-info { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+.profile-circle { width: 40px; height: 40px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.mail-text { line-height: 1.6; color: #333; }

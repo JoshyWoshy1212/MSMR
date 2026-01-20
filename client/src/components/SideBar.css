@@ -1,0 +1,76 @@
+/* 사이드바 기본 스타일 */
+.sidebar {
+  width: 250px; /* 기본 너비 */
+  transition: width 0.2s ease-in-out; /* 부드러운 애니메이션 */
+  overflow: hidden;
+  white-space: nowrap;
+  padding-right: 16px;
+  background-color: #f6f8f6;
+}
+
+.compose-btn{
+  margin: 16px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background-color: #c2e7ff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* 사이드바가 축소되었을 때 스타일 */
+.sidebar.sidebar-closed {
+  width: 72px; /* 아이콘만 보일 정도의 너비 */
+}
+
+/* 축소 시 메뉴 아이콘 중앙 정렬 등 세부 조정 */
+.sidebar.sidebar-closed .menu-list li {
+  padding: 8px 24px;
+}
+
+.sidebar.sidebar-closed .compose-btn {
+  width: 48px;
+  padding: 12px;
+  justify-content: center;
+}
+
+/* 메일 리스트는 flex: 1 이므로 사이드바가 줄어들면 자동으로 넓어집니다 */
+.mail-list {
+  flex: 1;
+  transition: margin 0.2s ease-in-out;
+}
+
+.menu-icon {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+}
+.menu-icon:hover { background-color: #e2e2e2; }
+
+.menu-list{
+  list-style: none;
+  padding: 0;
+}
+
+.menu-list li{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  color: #444;
+}
+
+.menu-list li:hover{
+  background-color: #e1eaff;
+  color: #041e49;
+}
+
+.menu-list li.active{
+  background-color: #d3e3fd;
+  color: #041e49;
+  font-weight: bold;
+}

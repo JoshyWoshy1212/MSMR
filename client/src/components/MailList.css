@@ -1,0 +1,84 @@
+
+.mail-list{
+  flex: 1;
+  background-color: white;
+  margin: 8px 16px 16px 0;
+  border-radius: 16px;
+  overflow-y: auto;
+}
+/* src/components/MailList.css */
+.mail-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #5f6368;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.mail-toolbar .material-icons {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+.mail-toolbar .material-icons:hover {
+  background-color: #f1f3f4;
+  color: #202124;
+}
+
+.delete-btn {
+  color: #ea4335;
+  margin-left: 10px;
+  background-color: #fce8e6;
+}
+
+.mail-item.selected {
+  background-color: #c2e7ff !important;
+}
+
+.mail-item{
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+  transition: box-shadow 0.1s;
+}
+
+.mail-item:hover{
+  box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.material-icons.star-icon.starred {
+  color: #f4b400;
+}
+
+.delete-icon{
+  margin-left: 10px;
+  color: #5f6368;
+}
+
+.delete-icon:hover{
+  opacity: 1;
+  color: #ea4335;
+}
+
+.sender { width: 200px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mail-content { flex: 1; display: flex; gap: 10px; }
+.subject { color: #202124; }
+.time { width: 80px; text-align: right; font-weight: bold; color: #5f6368; }
+
+.noEmail{
+    padding-left: 20px;
+    padding-top: 10px;
+}

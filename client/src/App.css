@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container{
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.material-icons:hover{
+  cursor: pointer;
+}
+
+
+/* 툴팁을 가질 요소의 공통 설정 */
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* 툴팁 박스 스타일 */
+[data-tooltip]::before {
+  content: attr(data-tooltip); /* 속성에 적힌 글자를 가져옴 */
+  position: absolute;
+  bottom: -35px; /* 아이콘 아래쪽에 배치 */
+  left: 50%;
+  z-index: 9999;
+  transform: translateX(-50%) scale(0); /* 처음엔 크기 0 (숨김) */
+  
+  padding: 5px 8px;
+  background-color: #444;
+  color: white;
+  font-size: 11px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1000;
+  transition: all 0.15s ease; /* 부드럽게 나타남 */
+  opacity: 0;
+  pointer-events: none; /* 툴팁이 마우스 클릭을 방해하지 않게 함 */
+}
+
+/* 마우스를 올렸을 때 나타나게 함 */
+[data-tooltip]:hover::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 0.9;
+}

@@ -1,0 +1,134 @@
+.header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color: #f6f8fc;
+}
+
+.header-left { display: flex; align-items: center; gap: 15px; }
+
+.menu-icon {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.menu-icon:hover { background-color: #e2e2e2; }
+
+.header-middle {
+  flex: 0.7;
+  display: flex;
+  align-items: center;
+  background-color: #eaf1fb;
+  padding: 8px 15px;
+  border-radius: 24px;
+}
+.header-middle input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  margin-left: 10px;
+  outline: none;
+}
+
+.header-right{
+    display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative; /* 드롭다운의 기준점 */
+}
+
+.profile-wrapper {
+  cursor: pointer;
+  position: relative;
+  margin-left: 10px;
+}
+
+.profile-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #0b57d0;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* 드롭다운 박스 */
+.profile-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  padding: 15px 0;
+  z-index: 2000;
+  border: 1px solid #e0e0e0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px 20px;
+}
+
+.large-profile {
+  width: 60px;
+  height: 60px;
+  background-color: #0b57d0;
+  color: white;
+  font-size: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.text-info { text-align: center; }
+.user-name { display: block; font-weight: 500; font-size: 16px; }
+.user-email { color: #5f6368; font-size: 13px; }
+
+hr { border: none; border-top: 1px solid #f1f1f1; margin: 10px 0; }
+.menu-item {
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 12px 20px;
+  display: flex;         /* 가로 배치 */
+  align-items: center;   /* 세로 중앙 정렬 */
+  gap: 12px;             /* 아이콘과 글자 사이 간격 */
+  cursor: pointer;
+  transition: background 0.2s;
+  
+  /* 텍스트 정렬 및 줄바꿈 방지 핵심 설정 */
+  text-align: left;
+  white-space: nowrap;   /* 텍스트가 절대 아래로 떨어지지 않게 함 */
+  overflow: hidden;      /* 혹시 넘치면 숨김 */
+}
+
+.menu-item .material-icons {
+  font-size: 20px;
+  color: #5f6368;
+  flex-shrink: 0;        /* 아이콘 크기가 압축되지 않도록 고정 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item span:not(.material-icons) {
+  font-size: 14px;
+  color: #3c4043;
+  flex: 1;               /* 남은 공간을 텍스트가 다 차지하게 함 */
+}
+
+.menu-item:hover {
+  background-color: #f8f9fa;
+}
