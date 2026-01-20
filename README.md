@@ -47,3 +47,8 @@ GitHub 레포지토리 페이지에 들어가면
 
 친구들과 코드를 리뷰한 뒤, 
 문제가 없으면 `Merge pull request`를 눌러 합친다.
+
+** 최신 코드 유지 **
+-> git pull origin main              # 메인 브렌치의 최신 내용을 내 컴퓨터로
+//이후에 branch로 수정하고 싶으면 위에서 말한대로
+// git push origin [브렌치 이름]
