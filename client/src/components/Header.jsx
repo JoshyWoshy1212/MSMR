@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './Header.css'
 
-export default function Header({onMenuClick, onSearchChange}) {
+export default function Header({ user, onLogout, onMenuClick, onSearchChange}) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const menuRef = useRef(null);
   
@@ -67,7 +67,7 @@ export default function Header({onMenuClick, onSearchChange}) {
               </div>
               <hr />
               <button className='menu-item'><span className='material-icons'>account_circle</span><span>프로필 변경</span></button>
-              <button className='menu-item'><span className='material-icons'>logout</span><span> 로그아웃</span></button>
+              <button className='menu-item' onClick={onLogout}><span className='material-icons'>logout</span><span> 로그아웃</span></button>
             </div>
           )}
         </div>

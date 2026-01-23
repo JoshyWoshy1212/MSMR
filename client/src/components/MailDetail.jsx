@@ -28,8 +28,7 @@ export default function MailDetail({mail, onBack, onDelete}){
                     <span className="time">{mail.time}</span>
                 </div>
                 <div className="mail-text">
-                    <p>안녕하세요, {mail.sender}입니다.</p>
-                    <p>{mail.content ? mail.content : '더미 데이터입니다'}</p>
+                    <p>{mail.sender}</p>
                 </div>
             </div>
         </main>

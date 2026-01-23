@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react"
 import './ComposeModal.css'
+import axios from "axios";
 
 // src/components/ComposeModal.jsx
-export default function ComposeModal({ onClose, onSend }) {
+export default function ComposeModal({ user, onClose, onSend }) {
     // 1. 위치 상태 (초기 위치: 하단 우측)
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
@@ -51,20 +52,30 @@ export default function ComposeModal({ onClose, onSend }) {
         };
     }, [isDragging, offset]);
 
-    const handleSubmit = () => {
-        //새 메일 객체 생성
-        const newMail = {
-            id: Date.now(),
-            sender: to || "Uknown",
-            subject: subject || "제목없음",
-            time: "방금",
-            isStarred: false,
-            category: "sent",
-            content: content,
-        };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        onSend(newMail); //부모의 함수로 메일 만들어서 App.jsx로 보냄
-        onClose(); //부모의 함수로 해당 modal 닫음
+        if (!user || !user.id) {
+            alert("로그인 정보가 없습니다.");
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/emails', {
+                sender_email: user.email, // 현재 로그인한 유저
+                receiver_email: to,
+                subject: subject,
+                content: content,
+                user_id: user.id // Supabase 유저 고유 ID
+            });
+
+            onSend(response.data.data);
+            alert("메일을 보냈습니다.");
+            onClose();
+        } catch (error) {
+            console.error(error);
+            alert("메일 전송에 실패했습니다.");
+        }
     }
 
     return (

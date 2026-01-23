@@ -42,23 +42,25 @@ app.post('/auth/login', async (req, res) => {
 });
 
 //3. 할 일 추가 API
-app.post('/api/todos', async (req, res) => {
-    const { title, description, userId } = req.body;
+app.post('/api/emails', async (req, res) => {
+    const { sender_email, receiver_email, subject, content, user_id } = req.body;
 
     const { data, error } = await supabase
-        .from('todos')
+        .from('emails')
         .insert([
             { 
-                title: title, 
-                description: description, 
-                user_id: userId,
-                is_done: false 
+                sender_email, 
+                receiver_email, 
+                subject, 
+                content, 
+                user_id,
+                category: 'sent'
             }
         ])
         .select();
 
     if (error) return res.status(400).json({ error: error.message });
-    res.status(201).json({ message: "할 일이 추가되었습니다.", data });
+    res.status(201).json({ message: "메일이 성공적으로 전송되었습니다.", data });
 });
 
 // 특정 사용자의 할 일 목록 가져오기
