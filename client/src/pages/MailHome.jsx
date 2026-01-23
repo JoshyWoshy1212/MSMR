@@ -13,6 +13,13 @@ const MailHome = ({ user, setUser, initialMails }) => {
   const [selectedMail, setSelectedMail] = useState(null);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setUser(null);
+    alert("로그아웃 되었습니다.");
+  };
+
   const addMail = (newMail) => {
     setMails([newMail, ...mails]);
   };
@@ -25,12 +32,6 @@ const MailHome = ({ user, setUser, initialMails }) => {
   const deleteMailAndClose = (id) => {
     setMails(prevMails => prevMails.filter(mail => mail.id != id));
     setSelectedMail(null);
-  };
-
-  // 로그아웃 처리
-  const handleLogout = () => {
-    localStorage.clear();
-    setUser(null); // App.jsx의 상태를 null로 바꿔서 로그인 페이지로 이동시킴
   };
 
   return (
@@ -68,6 +69,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
 
       {isComposeOpen && 
         <ComposeModal 
+          user={user}
           onClose={() => setIsComposeOpen(false)} 
           onSend={addMail}
         />}

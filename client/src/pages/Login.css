@@ -1,12 +1,17 @@
 /* Login.css */
-body{
+.login-page {
   background-color: #f0f2f5;
   color: white;
   overflow: hidden;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center;     /* 세로 중앙 */
 }
 
-h1{
+.login-page h1{
   text-align: center;
 }
 
@@ -18,14 +23,6 @@ h1{
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-}
-
-.login-page {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center; /* 가로 중앙 */
-  align-items: center;     /* 세로 중앙 */
 }
 
 /* 카드 전체 컨테이너 */
