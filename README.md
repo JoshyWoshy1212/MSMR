@@ -84,18 +84,20 @@ GitHub 레포지토리 페이지에 들어가면
 ## Server 및 Client 서버 실행 방법
 (처음 실행한다는 가정 하)
 ```jsx
-0. cd /MSMR/Client/ && cd /MSMR/Server/ //터미널 2개 생성해서 각각 실행하면 편함
+0. cd /MSMR/Client/ && cd /MSMR/Server/
+//터미널 2개 생성해서 각각 실행하면 편함
 
 1. install npm (nodemudules를 다시 깔아주기 위함)
 -> 안되면 npm install -g npm 로 npm을 최신 버전으로 업데이트 후 install npm 실행
+//두 터미널(각 폴더)에서 실행해야 함
 
-2. Client 켜기
+2. Client 켜기 (/MSMR/Client/에서)
 -> npm run dev
 //VITE v7.3.1  ready in 243 ms
 //➜  Local:   http://localhost:5173/
 //위 내용 뜨면 성공
 
-2-1. Server 켜기
+2-1. Server 켜기 (/MSMR/Server/에서)
 -> npm start
 // "Server running on port 5000" 뜨면 성공
 
