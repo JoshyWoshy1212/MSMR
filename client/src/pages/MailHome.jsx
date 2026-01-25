@@ -15,8 +15,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
   );
   const [selectedMail, setSelectedMail] = useState(null);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
-  
-
+  const [editData, setEditData] = useState(null);
 
   useEffect(() => {
       const fetchMails = async () => {
@@ -42,6 +41,26 @@ const MailHome = ({ user, setUser, initialMails }) => {
 
       if (user?.email) fetchMails();
   }, [user.email]);
+
+  const toggleStar = async (mailId, currentStatus) => {
+    try {
+        await axios.patch(`http://localhost:5000/api/emails/${mailId}/star`, {
+            is_starred: !currentStatus
+        });
+        
+        // 화면 업데이트 (새로고침 없이 반영)
+        setMails(prev => prev.map(m => 
+            m.id === mailId ? { ...m, is_starred: !currentStatus } : m
+        ));
+    } catch (err) {
+        console.error("별표 업데이트 실패:", err);
+    }
+  };
+
+  const handleEditCompose = (mail) => {
+    setEditData(mail); //기존 메일 정보 그대로 사용
+    setIsComposeOpen(true); //모달 열기
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -110,6 +129,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
             mail={selectedMail}
             onBack={() => setSelectedMail(null)}
             onDelete={deleteMailFromServer}
+            handleEditCompose={handleEditCompose}
           />
         ) : (
           <MailList 
@@ -126,8 +146,12 @@ const MailHome = ({ user, setUser, initialMails }) => {
       {isComposeOpen && 
         <ComposeModal 
           user={user}
-          onClose={() => setIsComposeOpen(false)} 
+          onClose={() => {
+            setIsComposeOpen(false)
+            setEditData(null);
+          }} 
           onSend={addMail}
+          editData={editData}
         />}
     </div>
   );

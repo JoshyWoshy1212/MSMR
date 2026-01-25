@@ -1,7 +1,7 @@
 import './MailDetail.css'
 // src/components/MailDetail.jsx
 
-export default function MailDetail({mail, onBack, onDelete}){
+export default function MailDetail({mail, onBack, onDelete, handleEditCompose}){
     if (!mail) return null;
     
     return (
@@ -19,6 +19,14 @@ export default function MailDetail({mail, onBack, onDelete}){
                         data-tooltip='삭제'
                     >
                         delete
+                    </span>
+                    <span 
+                        className="material-icons"
+                        data-tooltip='수정 및 답장'
+                        style={{margin: "0 20px"}}
+                        onClick={()=>handleEditCompose(mail)}
+                    >
+                        send
                     </span>
                 </div>
             </div>

@@ -2,15 +2,13 @@ import { useState, useRef, useEffect } from "react"
 import './ComposeModal.css'
 import axios from "axios";
 
-// src/components/ComposeModal.jsx
-export default function ComposeModal({ user, onClose, onSend }) {
-    // 1. 위치 상태 (초기 위치: 하단 우측)
+export default function ComposeModal({ user, onClose, onSend, editData }) {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [to, setTo] = useState('');
-    const [subject, setSubject] = useState('');
-    const [content, setContent] = useState('');
+    const [to, setTo] = useState(editData?.receiver_email || '');
+    const [subject, setSubject] = useState(editData ? `[재전송] ${editData.subject}` : '');
+    const [content, setContent] = useState(editData?.content || '');
 
     const modalRef = useRef(null);
 
@@ -95,9 +93,23 @@ export default function ComposeModal({ user, onClose, onSend }) {
                 <span className="material-icons" onClick={onClose}>close</span>
             </div>
             <div className="modal-body">
-                <input type="text" placeholder="받는사람" onChange={(e)=>setTo(e.target.value)}/>
-                <input type="text" placeholder="제목" onChange={(e)=>setSubject(e.target.value)}/>
-                <textarea placeholder="내용을 입력하세요" onChange={(e)=>setContent(e.target.value)}></textarea>
+                <input 
+                    type="text" 
+                    placeholder="받는사람" 
+                    value={to}
+                    onChange={(e)=>setTo(e.target.value)}
+                />
+                <input 
+                    value={subject}
+                    type="text" 
+                    placeholder="제목" 
+                    onChange={(e)=>setSubject(e.target.value)}
+                />
+                <textarea 
+                    value={content}
+                    placeholder="내용을 입력하세요"
+                    onChange={(e)=>setContent(e.target.value)}
+                ></textarea>
             </div>
             <div className="modal-footer">
                 <button className="send-btn" onClick={handleSubmit}>보내기</button>
