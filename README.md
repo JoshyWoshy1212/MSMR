@@ -80,3 +80,26 @@ GitHub 레포지토리 페이지에 들어가면
 3. 이제 내 브랜치가 최신화되었으니, GitHub로 올림
 -> git push origin [브랜치 이름]
 ```
+
+## Server 및 Client 서버 실행 방법
+(처음 실행한다는 가정 하)
+```jsx
+0. cd /MSMR/Client/ && cd /MSMR/Server/ //터미널 2개 생성해서 각각 실행하면 편함
+
+1. install npm (nodemudules를 다시 깔아주기 위함)
+-> 안되면 npm install -g npm 로 npm을 최신 버전으로 업데이트 후 install npm 실행
+
+2. Client 켜기
+-> npm run dev
+//VITE v7.3.1  ready in 243 ms
+//➜  Local:   http://localhost:5173/
+//위 내용 뜨면 성공
+
+2-1. Server 켜기
+-> npm start
+// "Server running on port 5000" 뜨면 성공
+
+3. 끄는 방법 -> 터미널에서 ctrl+c
+```
+
+install npm을 모두 완료한 상태라면? 2번 내용만 실행하여 client, server 켜기
