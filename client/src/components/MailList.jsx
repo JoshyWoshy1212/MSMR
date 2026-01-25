@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import './MailList.css'
 
-export default function MailList({onMailClick, category, mails, setMails, searchQuery}) {
+export default function MailList({onDelete, onMailClick, category, mails, setMails, searchQuery}) {
 
+  
   const [selectedIds, setSelectedIds] = useState([]);
 
   const toggleCheck = (e, id) => {
@@ -42,7 +43,7 @@ export default function MailList({onMailClick, category, mails, setMails, search
     // 3. 검색어 조건 (toLowerCase 에러 방지용 기본값 처리)
     const search = (searchQuery || "").toLowerCase();
     const subject = (mail.subject || "").toLowerCase();
-    const sender = (mail.sender || "").toLowerCase();
+    const sender = (mail.sender||mail.sender_email || "").toLowerCase();
 
     const matchesSearch = subject.includes(search) || sender.includes(search);
 
@@ -56,12 +57,6 @@ export default function MailList({onMailClick, category, mails, setMails, search
           mail.id === id ? { ...mail, isStarred: !mail.isStarred } : mail
       );
       setMails(newMails);
-  }
-
-  const deleteMail = (e, id) => {
-      e.stopPropagation();
-      const updatedMails = mails.filter(mail => mail.id !== id);
-      setMails(updatedMails);
   }
 
   return (
@@ -81,7 +76,11 @@ export default function MailList({onMailClick, category, mails, setMails, search
           
           {/* 선택된 메일이 있을 때만 삭제 버튼 노출 */}
           {selectedIds.length > 0 && (
-            <span className="material-icons delete-btn" onClick={deleteSelected}>
+            <span className="material-icons delete-btn"
+            onClick={() => {
+              onDelete(selectedIds); // 선택된 ID 배열을 통째로 전달
+              setSelectedIds([]);    // 선택 해제
+            }}>
               delete_outline
             </span>
           )}
@@ -116,16 +115,20 @@ export default function MailList({onMailClick, category, mails, setMails, search
                   {mail.isStarred ? 'star' : 'star_border'}
               </span>
 
-              <span className="sender">{mail.sender}</span>
+              <span className="sender">{mail.sender_email||mail.sender}</span>
               <div className="mail-content">
                 <span className="subject">{mail.subject}</span>
               </div>
-              <span className="time">{mail.time}</span>
+              <span className="time">
+                {mail.created_at ? new Date(mail.created_at).toLocaleDateString() : mail.time}
+              </span>
 
               <span
                 className="material-icons delete-icon"
-                onClick={(e) => deleteMail(e, mail.id)}
-              >
+                onClick={(e)=>{
+                  e.stopPropagation();
+                  onDelete(mail.id);
+                }}>
                 delete_outline
               </span>
             </div>

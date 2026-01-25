@@ -19,4 +19,10 @@
 .detail-body h2 { margin-bottom: 20px; font-weight: 400; }
 .sender-info { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
 .profile-circle { width: 40px; height: 40px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.mail-text { line-height: 1.6; color: #333; }
+.mail-text { line-height: 1.6; color: #333; margin-top: 20px;}
+
+.receiver-line {
+    font-size: 0.85rem;
+    color: #5f6368; /* 구글 특유의 회색 */
+    margin-top: 2px;
+}

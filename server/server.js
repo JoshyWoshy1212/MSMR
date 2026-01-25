@@ -41,7 +41,7 @@ app.post('/auth/login', async (req, res) => {
     });
 });
 
-//3. 할 일 추가 API
+//3. 메일 보내기
 app.post('/api/emails', async (req, res) => {
     const { sender_email, receiver_email, subject, content, user_id } = req.body;
 
@@ -63,31 +63,41 @@ app.post('/api/emails', async (req, res) => {
     res.status(201).json({ message: "메일이 성공적으로 전송되었습니다.", data });
 });
 
-// 특정 사용자의 할 일 목록 가져오기
-app.get('/api/todos/:userId', async (req, res) => {
-    const { userId } = req.params; // 주소창의 :userId 값을 읽어옴
+// email 목록 가져오기
+app.get('/api/emails/:userEmail', async (req, res) => {
+    const { userEmail } = req.params; // 주소창의 :userId 값을 읽어옴
+    
+    try {
+        const { data, error } = await supabase
+            .from('emails')
+            .select('*')
+            // 내가 보냈거나, 나에게 온 메일을 모두 가져옴
+            .or(`sender_email.eq.${userEmail},receiver_email.eq.${userEmail}`)
+            .order('created_at', { ascending: false });
 
-    const { data, error } = await supabase
-        .from('todos')
-        .select('*')
-        .eq('user_id', userId) // DB의 user_id가 요청받은 userId와 일치하는 데이터만 필터링
-        .order('created_at', { ascending: false }); // 최신순 정렬
-
-    if (error) return res.status(400).json({ error: error.message });
-    res.status(200).json(data);
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 });
 
-// 할 일 삭제 API
-app.delete('/api/todos/:id', async (req, res) => {
+// email 삭제
+app.delete('/api/emails/:id', async (req, res) => {
     const { id } = req.params; // URL 파라미터에서 할 일의 id를 가져옴
 
-    const { data, error } = await supabase
-        .from('todos')
-        .delete()
-        .eq('id', id); // DB의 id가 요청받은 id와 일치하는 것만 삭제
+    try {
+        const { data, error } = await supabase
+            .from('emails')
+            .delete()
+            .eq('id', id); // 해당 id를 가진 행만 삭제
 
-    if (error) return res.status(400).json({ error: error.message });
-    res.status(200).json({ message: "삭제 성공", data });
+        if (error) throw error;
+        res.status(200).json({ message: "성공적으로 삭제되었습니다." });
+    } catch (error) {
+        console.error("삭제 에러:", error.message);
+        res.status(400).json({ error: error.message });
+    }
 });
 
 // 할 일 상태 수정 API (PATCH)
