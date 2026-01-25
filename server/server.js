@@ -100,25 +100,23 @@ app.delete('/api/emails/:id', async (req, res) => {
     }
 });
 
-// 할 일 상태 수정 API (PATCH)
-app.patch('/api/todos/:id', async (req, res) => {
+//is_starred 항목 수정
+app.patch('/api/todos/:id/star', async (req, res) => {
     const { id } = req.params;
-    const { title, description, is_completed } = req.body; // 프론트에서 보낸 새로운 완료 상태
+    const { is_starred } = req.body; // 프론트에서 보낸 새로운 완료 상태
 
-    const { data, error } = await supabase
-        .from('todos')
-        .update({ 
-            title: title, 
-            description: description,
-            is_completed: is_completed 
-        })
-        .eq('id', id)
-        .select();
+    try {
+        const { data, error } = await supabase
+            .from('emails')
+            .update({ is_starred }) // DB 컬럼명이 is_starred 인지 확인하세요!
+            .eq('id', id)
+            .select();
 
-    if (error) {
-        return res.status(400).json({ error: error.message });
+        if (error) throw error;
+        res.status(200).json(data[0]);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
-    res.status(200).json(data);
 });
 
 app.listen(PORT, () => {
