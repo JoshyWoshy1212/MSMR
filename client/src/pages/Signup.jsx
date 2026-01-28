@@ -6,6 +6,7 @@ import './Signup.css';
 const Signup = ({ onShowLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const navigate = useNavigate();
 
     const handleSignup = async (e) => {
@@ -14,7 +15,8 @@ const Signup = ({ onShowLogin }) => {
             // 백엔드 서버(5000번 포트)의 회원가입 API 호출
             const res = await axios.post('http://localhost:5000/auth/signup', { 
                 email, 
-                password 
+                password,
+                name
             });
             alert(res.data.message);
             navigate('/'); // 가입 후 로그인 페이지로 이동
@@ -28,6 +30,15 @@ const Signup = ({ onShowLogin }) => {
             <div className='signup-container'>
                 <h2>회원가입</h2>
                 <form className='signup-form' onSubmit={handleSignup}>
+                    <div>
+                        <input 
+                            type="text" 
+                            placeholder="이름 (Full Name)" 
+                            value={name} 
+                            onChange={(e) => setName(e.target.value)} 
+                            required 
+                        />
+                    </div>
                     <div>
                         <input 
                             className='signup-input'
