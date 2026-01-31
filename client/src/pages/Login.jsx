@@ -12,9 +12,9 @@ const Login = ({ setUser, onShowSignup }) => {
         e.preventDefault();
         try {
             // 백엔드 서버의 로그인 API 호출
-            const res = await axios.post('http://localhost:5000/auth/login', { 
+            const res = await axios.post('http://localhost:5000/api/login', { 
                 email, 
-                password 
+                password
             });
 
             // 1. 서버가 보내준 토큰과 유저 정보를 구조 분해 할당
@@ -42,6 +42,7 @@ const Login = ({ setUser, onShowSignup }) => {
                 <form className="login-form" onSubmit={handleLogin}>
                     <div>
                         <input 
+                            name="email"
                             className='login-input'
                             type="email" 
                             placeholder="이메일" 
@@ -52,6 +53,7 @@ const Login = ({ setUser, onShowSignup }) => {
                     </div>
                     <div>
                         <input 
+                            name="password"
                             className='login-input'
                             type="password" 
                             placeholder="비밀번호" 
