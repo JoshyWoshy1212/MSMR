@@ -18,44 +18,44 @@ const MailHome = ({ user, setUser, initialMails }) => {
   const [editData, setEditData] = useState(null);
 
   useEffect(() => {
-      const fetchMails = async () => {
-          try {
-              // 1. 우선 로컬스토리지에 저장된 옛날 데이터가 있다면 먼저 보여줌 (속도 향상)
-              const savedMails = localStorage.getItem(`mails_${user.email}`);
-              if (savedMails) {
-                  setMails(JSON.parse(savedMails));
-              }
+    const fetchMails = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/emails/${user.email}`);
 
-              // 2. 서버에서 최신 데이터 가져오기
-              const res = await axios.get(`http://localhost:5000/api/emails/${user.email}`);
-              const latestMails = res.data;
+            const mappedMails = res.data.map(mail => ({
+              ...mail,
+              content: mail.body,          // body -> content
+              date: mail.received_at,      // received_at -> date
+              to: mail.recipient_email,    // recipient_email -> to
+              from: mail.sender_email,     // sender_email -> from
+              fromName: mail.sender_name   // sender_name -> fromName
+            }));
 
-              // 3. 상태 업데이트 및 로컬스토리지 최신화
-              setMails(latestMails);
-              localStorage.setItem(`mails_${user.email}`, JSON.stringify(latestMails));
-              
-          } catch (err) {
-              console.error("메일 목록 로딩 실패:", err);
-          }
-      };
+            setMails(mappedMails);
+            localStorage.setItem(`mails_${user.email}`, JSON.stringify(mappedMails));
+            
+        } catch (err) {
+            console.error("메일 목록 로딩 실패:", err);
+        }
+    };
 
-      if (user?.email) fetchMails();
+    if (user?.email) fetchMails();
   }, [user.email]);
 
-  const toggleStar = async (mailId, currentStatus) => {
-    try {
-        await axios.patch(`http://localhost:5000/api/emails/${mailId}/star`, {
-            is_starred: !currentStatus
-        });
-        
-        // 화면 업데이트 (새로고침 없이 반영)
-        setMails(prev => prev.map(m => 
-            m.id === mailId ? { ...m, is_starred: !currentStatus } : m
-        ));
-    } catch (err) {
-        console.error("별표 업데이트 실패:", err);
+  const getFilteredMails = () => {
+    let filtered = mails.filter(mail => !mail.deleted_at); // 공통: 삭제 안 된 것만
+
+    if (currentCategory === 'inbox') {
+        return filtered.filter(m => m.recipient_email === user.email);
     }
-  };
+    if (currentCategory === 'sent') {
+        return filtered.filter(m => m.sender_email === user.email);
+    }
+    if (currentCategory === 'starred') {
+        return filtered.filter(m => m.is_starred === 1);
+    }
+    return filtered;
+};
 
   const handleEditCompose = (mail) => {
     setEditData(mail); //기존 메일 정보 그대로 사용
@@ -70,7 +70,6 @@ const MailHome = ({ user, setUser, initialMails }) => {
   };
 
   const addMail = () => {
-
     window.location.reload();
   };
 
@@ -82,29 +81,20 @@ const MailHome = ({ user, setUser, initialMails }) => {
 
   const deleteMailFromServer = async (ids) => {
     const idsToDelete = Array.isArray(ids) ? ids : [ids];
-
-    if (!window.confirm(`${idsToDelete.length}개의 메일을 정말 삭제하시겠습니까?`)) return;
+    if (!window.confirm("삭제하시겠습니까?")) return;
 
     try {
-      // 1. 서버(DB)에 삭제 요청
-      await Promise.all(idsToDelete.map(id => 
-        axios.delete(`http://localhost:5000/api/emails/${id}`)
-      ));
+        await Promise.all(idsToDelete.map(id => 
+            axios.delete(`http://localhost:5000/api/emails/${id}`)
+        ));
 
-      // 2. 서버 삭제 성공 시, 화면(State) 업데이트
-      const updatedMails = mails.filter(mail => !idsToDelete.includes(mail.id));
-      setMails(updatedMails);
-
-      // 3. 로컬스토리지 최신화
-      localStorage.setItem(`mails_${user.email}`, JSON.stringify(updatedMails));
-
-      // 4. 상세 보기 닫기
-      setSelectedMail(null);
-      
-      alert("삭제되었습니다.");
+        // 💡 상태 업데이트: 실제 배열에서 지우거나, deleted_at 값을 넣어줌
+        const updatedMails = mails.filter(mail => !idsToDelete.includes(mail.id));
+        setMails(updatedMails);
+        
+        setSelectedMail(null);
     } catch (err) {
-      console.error("삭제 실패:", err);
-      alert("메일을 삭제하지 못했습니다.");
+        alert("삭제 실패");
     }
   };
 
@@ -136,7 +126,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
             searchQuery={searchQuery}
             onMailClick={setSelectedMail}
             category={currentCategory} 
-            mails={mails}
+            mails={getFilteredMails()}
             setMails={setMails}
             onDelete={deleteMailFromServer}
           />

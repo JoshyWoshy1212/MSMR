@@ -6,7 +6,7 @@ export default function ComposeModal({ user, onClose, onSend, editData }) {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const [to, setTo] = useState(editData?.receiver_email || '');
+    const [to, setTo] = useState(editData?.recipient_email || '');
     const [subject, setSubject] = useState(editData ? `[재전송] ${editData.subject}` : '');
     const [content, setContent] = useState(editData?.content || '');
 
@@ -60,14 +60,15 @@ export default function ComposeModal({ user, onClose, onSend, editData }) {
 
         try {
             const response = await axios.post('http://localhost:5000/api/emails', {
-                sender_email: user.email, // 현재 로그인한 유저
-                receiver_email: to,
+                sender_email: user.email,
+                sender_name: user.name || user.full_name, // 서버 응답에 따라 대응
+                recipient_email: to,
                 subject: subject,
-                content: content,
-                user_id: user.id // Supabase 유저 고유 ID
+                content: content, // 서버에서 body로 변환할 것이므로 그대로 전송
+                user_id: user.id
             });
 
-            onSend(response.data.data);
+            onSend(response.data);
             alert("메일을 보냈습니다.");
             onClose();
         } catch (error) {

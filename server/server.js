@@ -36,7 +36,7 @@ app.post('/auth/signup', async (req, res) => {
 });
 
 //2. 로그인 API
-app.post('/auth/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     try{
         const sql = `SELECT * FROM User WHERE email = ?`;
@@ -80,7 +80,7 @@ app.post('/api/logout', (req, res) => {
     res.status(200).json({ message: "로그아웃 되었습니다." });
 });
 
-//3. 메일 보내기
+// 3. 메일 보내기 (보완 버전)
 app.post('/api/emails', async (req, res) => {
     const { sender_email, recipient_email, subject, content, user_id, sender_name, recipient_name } = req.body;
     
@@ -96,7 +96,13 @@ app.post('/api/emails', async (req, res) => {
             subject, content
         ]);
 
-        res.status(201).json({ success: true, insertId: result.insertId });
+        // 💡 중요: 방금 넣은 데이터를 다시 조회해서 프론트엔드에 전달 (body AS content 매핑 포함)
+        const [newMail] = await pool.query(
+            `SELECT *, body AS content, received_at AS created_at FROM Email WHERE id = ?`, 
+            [result.insertId]
+        );
+
+        res.status(201).json(newMail[0]); // 전체 객체 반환
     } catch (error) {
         console.error("전송 오류:", error);
         res.status(500).json({ error: error.message });
@@ -109,14 +115,10 @@ app.get('/api/emails/:userEmail', async (req, res) => {
     try {
         // SQL: 내가 보냈거나(sender_email) 내가 받은(recipient_email) 메일을 최신순 조회
         const sql = `
-            SELECT 
-                id, user_id, sender_name, sender_email, 
-                recipient_name, recipient_email, folder, 
-                subject, body AS content, -- 프론트엔드와 호환을 위해 별칭 사용
-                received_at AS created_at, -- 프론트엔드와 호환
-                is_read, is_starred 
+            SELECT *, body AS content, received_at AS created_at
             FROM Email 
-            WHERE recipient_email = ? OR sender_email = ? 
+            WHERE (recipient_email = ? OR sender_email = ?) 
+                AND deleted_at IS NULL
             ORDER BY received_at DESC
         `;
         const [rows] = await pool.query(sql, [userEmail, userEmail]);
@@ -127,30 +129,47 @@ app.get('/api/emails/:userEmail', async (req, res) => {
     }
 });
 
-// email 삭제
+// email 삭제 (복구가 가능하도록 실제 데이터는 남겨둠)
 app.delete('/api/emails/:id', async (req, res) => {
-    const { id } = req.params; // URL 파라미터에서 할 일의 id를 가져옴
+    const { id } = req.params;
 
     try {
-        const { data, error } = await supabase
-            .from('emails')
-            .delete()
-            .eq('id', id); // 해당 id를 가진 행만 삭제
+        // 현재 시간을 deleted_at에 기록
+        const sql = 'UPDATE Email SET deleted_at = NOW() WHERE id = ?';
+        await pool.query(sql, [id]);
 
-        if (error) throw error;
-        res.status(200).json({ message: "성공적으로 삭제되었습니다." });
+        res.status(200).json({ success: true, message: "메일이 휴지통으로 이동되었습니다." });
     } catch (error) {
-        console.error("삭제 에러:", error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
-//별표 토글
+// server.js의 PATCH 부분 수정 제안
 app.patch('/api/emails/:id/star', async (req, res) => {
     const { id } = req.params;
-    const { is_starred } = req.body;
+    const { is_starred } = req.body; 
+
+    // 데이터가 잘 넘어오는지 디버깅용 로그
+    console.log(`메일 ID: ${id}, 별표 상태: ${is_starred}`);
+
     try {
-        await pool.query('UPDATE Email SET is_starred = ? WHERE id = ?', [is_starred ? 1 : 0, id]);
+        // 명확하게 1 또는 0으로 변환 (숫자형이나 불리언 모두 대응 가능)
+        const starredValue = (is_starred === true || is_starred === 1) ? 1 : 0;
+        
+        const sql = 'UPDATE Email SET is_starred = ? WHERE id = ?';
+        await pool.query(sql, [starredValue, id]);
+
+        res.status(200).json({ success: true, is_starred: starredValue });
+    } catch (error) {
+        console.error("별표 토글 에러:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+// 읽음 상태 업데이트
+app.patch('/api/emails/:id/read', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('UPDATE Email SET is_read = 1 WHERE id = ?', [id]);
         res.status(200).json({ success: true });
     } catch (error) {
         res.status(500).json({ error: error.message });

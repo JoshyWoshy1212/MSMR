@@ -32,6 +32,7 @@ const Signup = ({ onShowLogin }) => {
                 <form className='signup-form' onSubmit={handleSignup}>
                     <div>
                         <input 
+                            name='name'
                             type="text" 
                             placeholder="이름 (Full Name)" 
                             value={name} 
@@ -41,6 +42,7 @@ const Signup = ({ onShowLogin }) => {
                     </div>
                     <div>
                         <input 
+                            name='email'
                             className='signup-input'
                             type="email" 
                             placeholder="이메일 입력" 
@@ -51,6 +53,7 @@ const Signup = ({ onShowLogin }) => {
                     </div>
                     <div>
                         <input 
+                            name='password'
                             className='signup-input'
                             type="password" 
                             placeholder="비밀번호 입력" 

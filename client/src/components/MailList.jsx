@@ -1,6 +1,7 @@
 // src/components/MailList.jsx
 import { useState } from 'react'
 import './MailList.css'
+import axios from 'axios';
 
 export default function MailList({onDelete, onMailClick, category, mails, setMails, searchQuery}) {
 
@@ -37,8 +38,8 @@ export default function MailList({onDelete, onMailClick, category, mails, setMai
 
     // 2. 카테고리 조건 (안전하게 처리)
     const matchesCategory = category === 'starred' 
-      ? !!mail.isStarred 
-      : mail.category === category;
+      ? mail.is_starred === 1
+      : mail.folder === category;
     
     // 3. 검색어 조건 (toLowerCase 에러 방지용 기본값 처리)
     const search = (searchQuery || "").toLowerCase();
@@ -51,13 +52,27 @@ export default function MailList({onDelete, onMailClick, category, mails, setMai
   });
 
 
-  const toggleStar = (e, id) => {
-      e.stopPropagation();
-      const newMails = mails.map(mail =>
-          mail.id === id ? { ...mail, isStarred: !mail.isStarred } : mail
-      );
-      setMails(newMails);
-  }
+  // MailList.jsx의 toggleStar 함수 예시
+const toggleStar = async (e, id) => {
+    e.stopPropagation();
+    const targetMail = mails.find(m => m.id === id);
+    
+    // 현재 상태 반전 (1이면 false/0으로, 0이면 true/1로)
+    const currentStatus = targetMail.is_starred === 1; 
+
+    try {
+        await axios.patch(`http://localhost:5000/api/emails/${id}/star`, {
+            is_starred: !currentStatus // 반전시켜서 전송
+        });
+
+        // 로컬 상태 업데이트
+        setMails(prev => prev.map(m => 
+            m.id === id ? { ...m, is_starred: currentStatus ? 0 : 1 } : m
+        ));
+    } catch (err) {
+        console.error("별표 업데이트 실패:", err.response?.data || err.message);
+    }
+};
 
   return (
     <main className="mail-list">
@@ -109,13 +124,13 @@ export default function MailList({onDelete, onMailClick, category, mails, setMai
               />
 
               <span 
-                  className={`material-icons star-icon ${mail.isStarred ? 'starred' : ''}`}
+                  className={`material-icons star-icon ${mail.is_starred === 1 ? 'starred' : ''}`}
                   onClick={(e) => toggleStar(e, mail.id)}
               >
-                  {mail.isStarred ? 'star' : 'star_border'}
+                  {mail.is_starred === 1 ? 'star' : 'star_border'}
               </span>
 
-              <span className="sender">{mail.sender_email||mail.sender}</span>
+              <span className="sender">{mail.sender_name||mail.sender_email}</span>
               <div className="mail-content">
                 <span className="subject">{mail.subject}</span>
               </div>
