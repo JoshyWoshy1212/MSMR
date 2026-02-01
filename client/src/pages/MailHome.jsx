@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import MailList from '../components/MailList';
 import ComposeModal from '../components/ComposeModal';
 import MailDetail from '../components/MailDetail';
+import ChangePassword from './ChangePassword';
 import axios from 'axios';
 
 const MailHome = ({ user, setUser, initialMails }) => {
@@ -16,6 +17,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
   const [selectedMail, setSelectedMail] = useState(null);
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
 
   useEffect(() => {
     const fetchMails = async () => {
@@ -88,7 +90,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
             axios.delete(`http://localhost:5000/api/emails/${id}`)
         ));
 
-        // 💡 상태 업데이트: 실제 배열에서 지우거나, deleted_at 값을 넣어줌
+        // 상태 업데이트: 실제 배열에서 지우거나, deleted_at 값을 넣어줌
         const updatedMails = mails.filter(mail => !idsToDelete.includes(mail.id));
         setMails(updatedMails);
         
@@ -100,40 +102,52 @@ const MailHome = ({ user, setUser, initialMails }) => {
 
   return (
     <div className={`app ${isSidebarClosed ? 'sidebar-closed' : ''}`}>
-      <Header 
-        user={user} // 유저 정보 전달
-        onLogout={handleLogout} // 로그아웃 함수 전달
-        onSearchChange={setSearchQuery} 
-        onMenuClick={() => setIsSidebarClosed(!isSidebarClosed)}
-      />
-      <div className="container">
-        <Sidebar 
-          isSidebarClosed={isSidebarClosed}
-          activeMenu={currentCategory}
-          onMenuClick={handleCategoryChange}
-          onComposeClick={() => setIsComposeOpen(true)} 
+      {showPasswordChange ? (
+        <ChangePassword 
+          isForced={false} 
+          onComplete={() => setShowPasswordChange(false)} 
+          onCancel={() => setShowPasswordChange(false)} 
         />
-
-        {selectedMail ? (
-          <MailDetail
-            mail={selectedMail}
-            onBack={() => setSelectedMail(null)}
-            onDelete={deleteMailFromServer}
-            handleEditCompose={handleEditCompose}
+      ) : (
+        <>
+          <Header 
+            user={user} // 유저 정보 전달
+            onLogout={handleLogout} // 로그아웃 함수 전달
+            onSearchChange={setSearchQuery} 
+            onMenuClick={() => setIsSidebarClosed(!isSidebarClosed)}
+            onChangePasswordClick={() => setShowPasswordChange(true)}
           />
-        ) : (
-          <MailList 
-            searchQuery={searchQuery}
-            onMailClick={setSelectedMail}
-            category={currentCategory} 
-            mails={getFilteredMails()}
-            setMails={setMails}
-            onDelete={deleteMailFromServer}
-          />
-        )}
-      </div>
 
-      {isComposeOpen && 
+          <div className='container'>
+            <Sidebar 
+              isSidebarClosed={isSidebarClosed}
+              activeMenu={currentCategory}
+              onMenuClick={handleCategoryChange}
+              onComposeClick={() => setIsComposeOpen(true)} 
+            />
+
+            {selectedMail ? (
+              <MailDetail
+                mail={selectedMail}
+                onBack={() => setSelectedMail(null)}
+                onDelete={deleteMailFromServer}
+                handleEditCompose={handleEditCompose}
+              />
+            ) : (
+              <MailList 
+                searchQuery={searchQuery}
+                onMailClick={setSelectedMail}
+                category={currentCategory} 
+                mails={getFilteredMails()}
+                setMails={setMails}
+                onDelete={deleteMailFromServer}
+              />
+            )}
+          </div>
+        </>
+      )}
+
+      {isComposeOpen && !showPasswordChange && (
         <ComposeModal 
           user={user}
           onClose={() => {
@@ -142,7 +156,7 @@ const MailHome = ({ user, setUser, initialMails }) => {
           }} 
           onSend={addMail}
           editData={editData}
-        />}
+        />)}
     </div>
   );
 };

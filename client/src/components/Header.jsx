@@ -1,10 +1,12 @@
 // src/components/Header.jsx
 import { useState, useRef, useEffect } from 'react';
 import './Header.css'
+import ChangePassword from '../pages/ChangePassword';
 
-export default function Header({ user, onLogout, onMenuClick, onSearchChange}) {
+export default function Header({ user, onLogout, onMenuClick, onSearchChange, onChangePasswordClick }) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const menuRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -61,12 +63,21 @@ export default function Header({ user, onLogout, onMenuClick, onSearchChange}) {
               <div className='user-info'>
                 <div className='large-profile'>G</div>
                 <div className='text-info'>
-                  <span className='user-name'>Gemini User</span>
-                  <span className='user-email'>user@gmail.com</span>
+                  <span className='user-name'>{user?.name || '사용자'}</span>
+                  <span className='user-email'>{user?.email || 'user@mail.com'}</span>
                 </div>
               </div>
               <hr />
-              <button className='menu-item'><span className='material-icons'>account_circle</span><span>프로필 변경</span></button>
+              <button 
+                className='menu-item' 
+                onClick={() => {
+                  onChangePasswordClick();
+                  setShowProfileMenu(false);
+                }}
+              >
+                <span className='material-icons'>lock</span>
+                <span>비밀번호 변경</span>
+              </button>
               <button className='menu-item' onClick={onLogout}><span className='material-icons'>logout</span><span> 로그아웃</span></button>
             </div>
           )}

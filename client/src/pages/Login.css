@@ -118,3 +118,13 @@
   text-decoration: underline;
   color: #4338ca; 
 }
+
+.link-text{
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-text:hover{
+  text-decoration: underline;
+}

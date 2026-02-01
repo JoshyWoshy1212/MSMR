@@ -176,6 +176,35 @@ app.patch('/api/emails/:id/read', async (req, res) => {
     }
 });
 
+// 4. 비밀번호 재설정 API
+const crypto = require('crypto');
+const sendResetMail = require('./utils/mailSender');
+
+app.post('/api/forgot-password', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // 1. 유저 확인
+    const [users] = await pool.query('SELECT * FROM User WHERE email = ?', [email]);
+    if (users.length === 0) return res.status(404).json({ error: "등록되지 않은 이메일입니다." });
+
+    // 2. 임시 비밀번호 생성 (8자리 무작위)
+    const tempPassword = crypto.randomBytes(4).toString('hex'); 
+    
+    // 3. DB 업데이트 (임시 비밀번호로 교체 및 변경 필요 플래그 설정)
+    // password_needs_change 같은 컬럼을 User 테이블에 추가하면 더 좋습니다.
+    await pool.query('UPDATE User SET password = ? WHERE email = ?', [tempPassword, email]);
+
+    // 4. 메일 발송
+    await sendResetMail(email, tempPassword);
+
+    res.status(200).json({ message: "메일로 임시 비밀번호가 발송되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "메일 발송 중 오류 발생" });
+  }
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
