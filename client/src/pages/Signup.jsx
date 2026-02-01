@@ -33,6 +33,7 @@ const Signup = ({ onShowLogin }) => {
                     <div>
                         <input 
                             name='name'
+                            className='signup-input'
                             type="text" 
                             placeholder="이름 (Full Name)" 
                             value={name} 
