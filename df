@@ -1,0 +1,107 @@
+[33mcommit 7f3f6b714db6a2739df510dee3783d917b7adcb5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: 823ae6c 367c551
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Sun Jan 25 13:28:38 2026 +0900
+
+    Merge pull request #3 from JoshyWoshy1212/donghyun
+    
+    mailpost&deletetion completed
+
+[33mcommit 367c551d04a7f85937dbcc9123fc2568a196a716[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Sun Jan 25 13:25:32 2026 +0900
+
+    mailpost&deletetion completed
+
+[33mcommit 823ae6c54da6d1b5666214f7872cf19a7415ebbd[m
+Merge: e502c18 770cfec
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Fri Jan 23 21:01:43 2026 +0900
+
+    Merge pull request #2 from JoshyWoshy1212/donghyun
+    
+    login&logout fixed -> working on DB
+
+[33mcommit 770cfecf970513e41073633dbb3ab24e3fad1c22[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Fri Jan 23 21:00:19 2026 +0900
+
+    login&logout fixed -> working on DB
+
+[33mcommit e502c18c79f28dd5ca8a796cf592f9a2eda3135f[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:43:54 2026 +0900
+
+    Update README.md
+
+[33mcommit 7a9ba63e17d711fb0445be56b5bb6d67f633ba87[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:33:18 2026 +0900
+
+    Update README.md
+
+[33mcommit c8aafbdfb8bd728c7282211e1748d999d337ec00[m
+Merge: 7cc7d59 182f0ba
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:31:51 2026 +0900
+
+    Merge pull request #1 from JoshyWoshy1212/donghyun
+    
+    Donghyun to main merge
+
+[33mcommit 182f0baee196cf65e515b1a01a1ef7add48ba717[m
+Merge: c7f242a 7cc7d59
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:31:40 2026 +0900
+
+    Merge branch 'main' into donghyun
+
+[33mcommit c7f242ae21378624defdd77088e7bf4a22012abd[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:29:28 2026 +0900
+
+    README changed
+
+[33mcommit 173d998d0218d0bf9d00e73d8f4c07543bed3985[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:28:32 2026 +0900
+
+    README changed
+
+[33mcommit 965e4b6c4c23d9b1b8bc3069bdddaeeea54410da[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:23:28 2026 +0900
+
+    test
+
+[33mcommit 7cc7d5949cc7ff11afd3a7b48499cb5ddcd8f5fb[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:18:20 2026 +0900
+
+    Update README.md
+
+[33mcommit c978b2aa7a967bf84304e20b67f3a725c3329b6e[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 23:07:35 2026 +0900
+
+    Create README.md
+
+[33mcommit 343aeeab72d8de9abfc8b321c76308f75ad301b1[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 22:50:46 2026 +0900
+
+    Update README.md
+
+[33mcommit ac0237f70f7f0d629ab6fcc9f2abf64a33227747[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 22:50:25 2026 +0900
+
+    Add branch creation and commit instructions
+    
+    Added instructions for creating branches and committing changes in Korean.
+
+[33mcommit 797bebcdfb0449c907ce3f2f96273173a7b4796f[m
+Author: JoshyWoshy <joshywoshy31212@gmail.com>
+Date:   Tue Jan 20 22:19:58 2026 +0900
+
+    Initial commit: main code subitted

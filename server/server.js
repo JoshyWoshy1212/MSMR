@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-const {createClient} = require('@supabase/supabase-js');
+const { createClient } = require('@supabase/supabase-js');
 
 const PORT = process.env.PORT || 5000;
 
@@ -32,12 +32,12 @@ app.post('/auth/login', async (req, res) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) return res.status(400).json({ error: error.message });
-    
+
     // 세션 정보와 토큰을 보냅니다.
-    res.status(200).json({ 
-        message: "로그인 성공!", 
+    res.status(200).json({
+        message: "로그인 성공!",
         token: data.session.access_token,
-        user: data.user 
+        user: data.user
     });
 });
 
@@ -48,11 +48,11 @@ app.post('/api/emails', async (req, res) => {
     const { data, error } = await supabase
         .from('emails')
         .insert([
-            { 
-                sender_email, 
-                receiver_email, 
-                subject, 
-                content, 
+            {
+                sender_email,
+                receiver_email,
+                subject,
+                content,
                 user_id,
                 category: 'sent'
             }
@@ -66,7 +66,7 @@ app.post('/api/emails', async (req, res) => {
 // email 목록 가져오기
 app.get('/api/emails/:userEmail', async (req, res) => {
     const { userEmail } = req.params; // 주소창의 :userId 값을 읽어옴
-    
+
     try {
         const { data, error } = await supabase
             .from('emails')
@@ -100,6 +100,7 @@ app.delete('/api/emails/:id', async (req, res) => {
     }
 });
 
+
 // 할 일 상태 수정 API (PATCH)
 app.patch('/api/todos/:id', async (req, res) => {
     const { id } = req.params;
@@ -107,10 +108,10 @@ app.patch('/api/todos/:id', async (req, res) => {
 
     const { data, error } = await supabase
         .from('todos')
-        .update({ 
-            title: title, 
+        .update({
+            title: title,
             description: description,
-            is_completed: is_completed 
+            is_completed: is_completed
         })
         .eq('id', id)
         .select();
